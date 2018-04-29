@@ -1,8 +1,8 @@
 defmodule TodoList do
   def new(), do: MultiDict.new()
 
-  def add_entry(todo_list, date, title) do
-    MultiDict.add(todo_list, date, title)
+  def add_entry(todo_list, entry) do
+    MultiDict.add(todo_list, entry.date, entry)
   end
 
   def entries(todo_list, date) do
@@ -23,7 +23,9 @@ defmodule MultiDict do
 end
 
 date = ~D[2018-04-29]
-IO.puts TodoList.new |>
-TodoList.add_entry(date, "Dentist") |>
-TodoList.add_entry(date, "Football") |>
+entry = %{date: date, title: "Dentist"}
+entry2 = %{date: date, title: "Football"}
+TodoList.new |>
+TodoList.add_entry(entry) |>
+TodoList.add_entry(entry2) |>
 TodoList.entries(date)

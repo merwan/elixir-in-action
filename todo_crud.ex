@@ -1,7 +1,15 @@
 defmodule TodoList do
   defstruct auto_id: 1, entries: %{}
 
-  def new(), do: %TodoList{}
+  def new(entries \\ []) do
+    Enum.reduce(
+      entries,
+      %TodoList{},
+      fn entry, todo_list_acc ->
+        add_entry(todo_list_acc, entry)
+      end
+    )
+  end
 
   def add_entry(todo_list, entry) do
     entry = Map.put(entry, :id, todo_list.auto_id)
@@ -35,11 +43,13 @@ defmodule TodoList do
 end
 
 date = ~D[2018-04-29]
-entry = %{date: date, title: "Dentist"}
-entry2 = %{date: date, title: "Football"}
+entries = [
+  %{date: date, title: "Dentist"},
+  %{date: date, title: "Football"}
+]
+entry = %{date: date, title: "Movies"}
 
-todo_list = TodoList.new |> TodoList.add_entry(entry) |>
-TodoList.add_entry(entry2)
+todo_list = TodoList.new(entries) |> TodoList.add_entry(entry)
 
 IO.inspect todo_list
 
